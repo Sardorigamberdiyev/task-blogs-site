@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package user;
+
+import "general.proto";
+
+service User {
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {}
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
+}
+
+message GetUsersRequest {
+  int32 page = 1;
+  int32 limit = 2;
+  optional string search = 3;
+}
+
+message GetUsersResponse {
+  int32 page = 1;
+  int32 total_pages = 2;
+  int32 total_results = 3;
+  repeated general.UserEntityPB users = 4;
+}
+
+message GetUserByIdRequest {
+  int32 user_id = 1;
+}
+
+message GetUserByIdResponse {
+  int32 id = 1;
+  string username = 2;
+  string role = 3;
+  string full_name = 4;
+}

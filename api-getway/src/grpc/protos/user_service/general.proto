@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package general;
+
+message UserEntityPB {
+    int32 id = 1;
+    string username = 2;
+    string role = 3;
+    string full_name = 4;
+}
+
+enum UserRole {
+    admin = 0;
+    author = 1;
+    guest = 2;
+}

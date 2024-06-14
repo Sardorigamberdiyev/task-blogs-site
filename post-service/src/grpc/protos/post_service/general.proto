@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package general;
+
+message Author {
+  int32 id = 1;
+  string full_name = 2;
+  string username = 3;
+}
+
+message PostEntityPB {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string image_url = 4;
+  Author author = 5;
+  string created_at = 6;
+}
+
+message PostCommentEntityPB {
+  int32 id = 1;
+  string comment = 2;
+  Author author = 3;
+  string created_at = 4;
+}
+
+message IdParams {
+  int32 id = 1;
+}

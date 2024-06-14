@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package post_comment;
+
+import "general.proto";
+
+service PostComment {
+  rpc GetPostComments(GetPostCommentsRequest) returns (GetPostCommentsResponse) {}
+  rpc GetPostCommentById(general.IdParams) returns (general.PostCommentEntityPB) {}
+  rpc CreatePostComment(CreatePostCommentRequest) returns (general.IdParams) {}
+  rpc UpdatePostComment(UpdatePostCommentRequest) returns (general.IdParams) {}
+  rpc DeletePostComment(general.IdParams) returns (general.IdParams) {}
+}
+
+message CreatePostCommentRequest {
+    int32 post_id = 1;
+    int32 user_id = 2;
+    string comment = 3;
+}
+
+message UpdatePostCommentRequest {
+    int32 id = 1;
+    string comment = 3;
+}
+
+message GetPostCommentsRequest {
+    int32 page = 1;
+    int32 limit= 2;
+    int32 post_id = 3;
+}
+
+message GetPostCommentsResponse {
+    int32 page = 1;
+    int32 total_pages = 2;
+    int32 total_results = 3;
+    repeated general.PostCommentEntityPB comments = 4;
+}
