@@ -42,7 +42,7 @@ export class App {
 	}
 
 	private listenServer() {
-		const port = 3000;
+		const port = this.configService.get('PORT');
 		this.app.listen(port, () => Log.info(`Server running on port ${port}`));
 	}
 

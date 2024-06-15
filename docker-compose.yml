@@ -1,0 +1,59 @@
+name: blogs
+services:
+  api-getway:
+      env_file: ./api-getway/.env
+      build:
+        context: ./api-getway
+        dockerfile: Dockerfile
+      restart: always
+      volumes:
+        - ./api-getway/.env:/opt/app/.env
+      network_mode: host
+      depends_on:
+        - user-service
+        - post-service
+
+  post-service:
+    env_file: ./post-service/.env
+    build:
+      context: ./post-service
+      dockerfile: Dockerfile
+    restart: always
+    volumes: 
+      - ./post-service/.env:/opt/app/.env
+    network_mode: host
+    depends_on:
+      - user-service
+
+  user-service:
+    env_file: ./user-service/.env
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    restart: always
+    volumes: 
+      - ./user-service/.env:/opt/app/.env
+    network_mode: host
+    depends_on:
+      - database
+    
+  database:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: ${PSQL_NAME:-blogs}
+      POSTGRES_USER: ${PSQL_USER:-postgres}
+      POSTGRES_PASSWORD: ${PSQL_POSSWORD:-123456}
+    volumes:
+      - blogDatabaseData:/var/lib/postgresql/data
+    networks:
+        - blogsNetwork
+    ports:
+      - ${PSQL_PORT:-5433}:5432
+
+volumes:
+  blogDatabaseData:
+
+networks:
+  blogsNetwork:
+   driver: bridge
