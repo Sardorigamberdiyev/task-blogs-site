@@ -1,20 +1,28 @@
 name: blogs
 services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - ${PORT}:80
+    depends_on:
+      - api-getway
+
   api-getway:
-      env_file: ./api-getway/.env
-      build:
-        context: ./api-getway
-        dockerfile: Dockerfile
-      restart: always
-      volumes:
-        - ./api-getway/.env:/opt/app/.env
-      network_mode: host
-      depends_on:
-        - user-service
-        - post-service
+    build:
+      context: ./api-getway
+      dockerfile: Dockerfile
+    restart: always
+    volumes:
+      - ./api-getway/.env:/opt/app/.env
+    network_mode: host
+    depends_on:
+      - user-service
+      - post-service
 
   post-service:
-    env_file: ./post-service/.env
     build:
       context: ./post-service
       dockerfile: Dockerfile
@@ -26,7 +34,6 @@ services:
       - user-service
 
   user-service:
-    env_file: ./user-service/.env
     build:
       context: ./user-service
       dockerfile: Dockerfile
